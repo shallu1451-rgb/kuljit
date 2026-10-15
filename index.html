@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kriti Tours and Travels | Premium Malaysia Holiday & Tour Packages from India</title>
+  <meta name="description" content="Explore Malaysia with Kriti Tours and Travels. Handcrafted tour packages to Kuala Lumpur, Langkawi, Genting Highlands, Penang & Borneo. 4/5-star hotels, transfers, visa assistance & pure veg/Jain meal options.">
+  <meta name="keywords" content="Kriti Tours and Travels, Malaysia tour packages, Kuala Lumpur holiday package, Langkawi honeymoon packages, Genting Highlands family tour, Malaysia visa free for Indians">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. TOP ANNOUNCEMENT & UTILITY BAR
+       ========================================================================= -->
+  <aside class="top-bar" aria-label="Announcement & Utility">
+    <div class="container top-bar-inner">
+      <div class="top-bar-left">
+        <span class="top-badge">
+          <i class="fa-solid fa-passport"></i> VISA-FREE ALERT
+        </span>
+        <span>Indians enjoy 30-Day Visa-Free entry to Malaysia! Free MDAC registration assistance included.</span>
+      </div>
+      
+      <div class="top-bar-right">
+        <a href="tel:+919876543210" style="display: flex; align-items: center; gap: 0.4rem; color: #fef08a;">
+          <i class="fa-solid fa-headset"></i> 24/7 Helpline: +91 98765 43210
+        </a>
+        <div class="currency-selector">
+          <i class="fa-solid fa-coins" style="color: var(--accent-gold);"></i>
+          <label for="currency-select" class="visually-hidden" style="display:none;">Currency</label>
+          <select id="currency-select" title="Change Currency">
+            <option value="INR" selected>INR (₹)</option>
+            <option value="USD">USD ($)</option>
+            <option value="MYR">MYR (RM)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       2. MAIN NAVIGATION HEADER
+       ========================================================================= -->
+  <header class="main-header" id="header">
+    <div class="container nav-wrapper">
+      <!-- Brand Logo -->
+      <a href="#hero" class="brand-logo" title="Kriti Tours and Travels Home">
+        <div class="brand-icon">
+          <i class="fa-solid fa-compass fa-spin-hover" style="font-size: 1.4rem;"></i>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-name">KRITI <span>TOURS</span></span>
+          <span class="brand-tagline">&amp; TRAVELS • LUXURY JOURNEYS</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#packages-section" class="nav-link active">Malaysia Packages</a></li>
+          <li><a href="#destinations" class="nav-link">Top Destinations</a></li>
+          <li><a href="#custom-builder" class="nav-link">Design Custom Trip</a></li>
+          <li><a href="#travel-guide" class="nav-link">Indian Traveler Guide</a></li>
+          <li><a href="#why-us" class="nav-link">Why Kriti</a></li>
+          <li><a href="#faqs" class="nav-link">FAQs</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <a href="tel:+919876543210" class="phone-pill">
+          <i class="fa-solid fa-phone-volume"></i>
+          <span>Call Specialist</span>
+        </a>
+        <a href="#callback-section" class="btn-primary">
+          <i class="fa-regular fa-paper-plane"></i> Get Free Quote
+        </a>
+        <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       3. HERO SECTION WITH SEARCH ENGINE
+       ========================================================================= -->
+  <section class="hero-section" id="hero">
+    <div class="hero-bg-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-trust-tag">
+        <i class="fa-solid fa-award" style="color: var(--accent-gold);"></i>
+        <span>IATA Accredited &amp; Rated 4.9/5 by 15,000+ Indian Travelers</span>
+      </div>
+
+      <h1 class="hero-title">
+        Discover <span class="highlight">Truly Asia</span> with Kriti Tours &amp; Travels
+      </h1>
+
+      <p class="hero-description">
+        Curated Malaysia holidays featuring handpicked 4★ &amp; 5★ resorts, private chauffeur transfers, Batu Caves &amp; theme park passes, hassle-free visa-free clearance, and genuine Indian vegetarian dining.
+      </p>
+    </div>
+  </section>
+
+  <!-- Quick Search & Filter Engine Widget -->
+  <div class="container search-widget-container">
+    <div class="search-widget">
+      <form id="hero-search-form" class="search-grid">
+        <div class="search-field">
+          <label for="search-destination"><i class="fa-solid fa-map-location-dot"></i> Destination</label>
+          <select id="search-destination">
+            <option value="all">All Malaysia (Highlights)</option>
+            <option value="kuala lumpur">Kuala Lumpur &amp; Genting</option>
+            <option value="langkawi">Langkawi Island (Beaches)</option>
+            <option value="penang">Penang (Heritage &amp; Food)</option>
+            <option value="johor">Johor (Legoland &amp; Parks)</option>
+            <option value="borneo">Borneo Sabah (Wildlife)</option>
+          </select>
+        </div>
+
+        <div class="search-field">
+          <label for="search-duration"><i class="fa-regular fa-calendar-days"></i> Duration</label>
+          <select id="search-duration">
+            <option value="all">Any Duration</option>
+            <option value="short">3 - 5 Days (Express / Weekend)</option>
+            <option value="medium">6 - 7 Days (Best Value)</option>
+            <option value="long">8+ Days (Grand Explorer)</option>
+          </select>
+        </div>
+
+        <div class="search-field">
+          <label for="search-month"><i class="fa-solid fa-plane-departure"></i> Travel Season</label>
+          <select id="search-month">
+            <option value="upcoming">Next 30 Days (Instant Deals)</option>
+            <option value="winter">Dec - Feb (Peak Season)</option>
+            <option value="spring">Mar - May (Pleasant)</option>
+            <option value="summer">Jun - Aug (Family Vacations)</option>
+            <option value="autumn">Sep - Nov (Autumn Festivities)</option>
+          </select>
+        </div>
+
+        <div class="search-field">
+          <label for="search-theme"><i class="fa-solid fa-umbrella-beach"></i> Holiday Style</label>
+          <select id="search-theme">
+            <option value="all">All Travel Styles</option>
+            <option value="family">Family &amp; Sightseeing</option>
+            <option value="honeymoon">Honeymoon &amp; Romantic</option>
+            <option value="culture">Heritage &amp; Cultural</option>
+            <option value="adventure">Wildlife &amp; Adventure</option>
+            <option value="budget">Budget Friendly</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary search-submit-btn">
+          <i class="fa-solid fa-magnifying-glass"></i> Find Packages
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Trust Features Bar -->
+  <section class="trust-bar">
+    <div class="container trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon-box">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="trust-text">
+          <h4>100% Customized Trips</h4>
+          <p>Every itinerary is tailored to your dates, pace and budget.</p>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box teal">
+          <i class="fa-solid fa-utensils"></i>
+        </div>
+        <div class="trust-text">
+          <h4>Pure Veg &amp; Jain Meals</h4>
+          <p>Dedicated Indian food assistance in every Malaysian city.</p>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+        </div>
+        <div class="trust-text">
+          <h4>Zero Hidden Surcharges</h4>
+          <p>Clear, transparent pricing including all stated transfers &amp; taxes.</p>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box teal">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <div class="trust-text">
+          <h4>24/7 On-Trip Concierge</h4>
+          <p>Dedicated travel manager on WhatsApp throughout your holiday.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       4. CURATED MALAYSIA PACKAGES SECTION
+       ========================================================================= -->
+  <section class="section-padding" id="packages-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Exclusively Handcrafted for You</span>
+        <h2 class="section-title">Popular Malaysia Tour Packages</h2>
+        <p class="section-desc">
+          Browse our most loved Malaysia holiday packages departing from Mumbai, Delhi, Bengaluru, Chennai, and other major Indian cities.
+        </p>
+      </div>
+
+      <!-- Filter Controls & Sort Bar -->
+      <div class="filter-control-panel">
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All Packages</button>
+          <button class="filter-tab" data-filter="family">Family &amp; Theme Parks</button>
+          <button class="filter-tab" data-filter="honeymoon">Honeymoon Specials</button>
+          <button class="filter-tab" data-filter="culture">Culture &amp; Heritage</button>
+          <button class="filter-tab" data-filter="adventure">Adventure &amp; Wildlife</button>
+          <button class="filter-tab" data-filter="budget">Express &amp; Budget</button>
+        </div>
+
+        <div class="sort-controls">
+          <span id="package-count-badge" style="font-weight: 700; color: var(--primary-800);">6 curated packages found</span>
+          <label for="sort-select" style="font-weight: 600;">Sort By:</label>
+          <select id="sort-select" class="sort-select">
+            <option value="recommended">Kriti Recommended</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Highest Guest Rating</option>
+            <option value="duration">Longest Duration</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Dynamic Packages Grid -->
+      <div class="packages-grid" id="packages-grid">
+        <!-- Rendered dynamically by js/app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       5. INTERACTIVE CUSTOM TRIP BUILDER WIZARD
+       ========================================================================= -->
+  <section class="custom-builder-section" id="custom-builder">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle" style="color: var(--accent-gold);">Personalized Travel Planning</span>
+        <h2 class="section-title">Design Your Custom Malaysia Holiday</h2>
+        <p class="section-desc">
+          Tell us how you like to travel. We will assemble the perfect hotels, transfers, sightseeing and meals tailored exclusively for your family.
+        </p>
+      </div>
+
+      <div class="builder-card">
+        <form id="custom-builder-form">
+          <!-- Step 1: Destination Selection -->
+          <h4 style="font-size: 1.15rem; color: var(--primary-900); margin-bottom: 0.85rem;">
+            1. Select Destinations you wish to visit (Click to select multiple)
+          </h4>
+          <div class="builder-options-grid" data-multiselect="true">
+            <div class="builder-option-box selected">
+              <div class="builder-option-icon"><i class="fa-solid fa-city"></i></div>
+              <div class="builder-option-title">Kuala Lumpur</div>
+              <div class="builder-option-desc">Twin Towers, Batu Caves, Shopping</div>
+            </div>
+            <div class="builder-option-box selected">
+              <div class="builder-option-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+              <div class="builder-option-title">Genting Highlands</div>
+              <div class="builder-option-desc">SkyWorlds Theme Park, Cable Car</div>
+            </div>
+            <div class="builder-option-box">
+              <div class="builder-option-icon"><i class="fa-solid fa-umbrella-beach"></i></div>
+              <div class="builder-option-title">Langkawi Island</div>
+              <div class="builder-option-desc">SkyBridge, Island Hopping, Sunset Cruise</div>
+            </div>
+            <div class="builder-option-box">
+              <div class="builder-option-icon"><i class="fa-solid fa-landmark"></i></div>
+              <div class="builder-option-title">Penang (George Town)</div>
+              <div class="builder-option-desc">UNESCO Art, Kek Lok Si, Food Trails</div>
+            </div>
+            <div class="builder-option-box">
+              <div class="builder-option-icon"><i class="fa-solid fa-leaf"></i></div>
+              <div class="builder-option-title">Cameron Highlands</div>
+              <div class="builder-option-desc">Tea Estates, Strawberry Farms, Cool Air</div>
+            </div>
+            <div class="builder-option-box">
+              <div class="builder-option-icon"><i class="fa-solid fa-tree"></i></div>
+              <div class="builder-option-title">Borneo Sabah</div>
+              <div class="builder-option-desc">Orangutans, Mount Kinabalu, Safari</div>
+            </div>
+          </div>
+
+          <!-- Step 2: Hotel Tier Selection -->
+          <h4 style="font-size: 1.15rem; color: var(--primary-900); margin-bottom: 0.85rem; margin-top: 2rem;">
+            2. Choose Accommodation Preference
+          </h4>
+          <div class="builder-options-grid" data-multiselect="false">
+            <div class="builder-option-box">
+              <div class="builder-option-icon"><i class="fa-solid fa-hotel"></i></div>
+              <div class="builder-option-title">3-Star Comfort</div>
+              <div class="builder-option-desc">Clean, central, value-for-money stays</div>
+            </div>
+            <div class="builder-option-box selected">
+              <div class="builder-option-icon"><i class="fa-solid fa-star"></i></div>
+              <div class="builder-option-title">4-Star Premium</div>
+              <div class="builder-option-desc">Swimming pool, buffet breakfast, upscale</div>
+            </div>
+            <div class="builder-option-box">
+              <div class="builder-option-icon"><i class="fa-solid fa-crown"></i></div>
+              <div class="builder-option-title">5-Star Luxury Resort</div>
+              <div class="builder-option-desc">Beachfront villas, club lounges &amp; spas</div>
+            </div>
+          </div>
+
+          <!-- Step 3: Contact & Dates Inputs -->
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem;">
+            <div class="form-group">
+              <label for="builder-days">Trip Duration (Days)</label>
+              <input type="number" id="builder-days" class="form-control" value="6" min="3" max="20" required>
+            </div>
+            <div class="form-group">
+              <label for="builder-name">Your Full Name</label>
+              <input type="text" id="builder-name" class="form-control" placeholder="e.g. Rahul Verma" required>
+            </div>
+            <div class="form-group">
+              <label for="builder-phone">WhatsApp / Mobile Number</label>
+              <input type="tel" id="builder-phone" class="form-control" placeholder="+91 98765 43210" required>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 1.5rem;">
+            <button type="submit" class="btn-primary" style="padding: 0.85rem 2.5rem; font-size: 1rem;">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Build My Free Itinerary &amp; Quote
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       6. TOP DESTINATIONS IN MALAYSIA
+       ========================================================================= -->
+  <section class="section-padding" id="destinations">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Destination Highlights</span>
+        <h2 class="section-title">Must-Visit Malaysian Wonderlands</h2>
+        <p class="section-desc">
+          Click on any destination below to immediately explore our curated holiday packages covering that region.
+        </p>
+      </div>
+
+      <div class="destinations-grid" id="destinations-grid">
+        <!-- Rendered dynamically by js/app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       7. INDIAN TRAVELER ESSENTIAL GUIDE
+       ========================================================================= -->
+  <section class="section-padding" id="travel-guide" style="background: #ffffff;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Know Before You Fly</span>
+        <h2 class="section-title">Malaysia Travel Guide for Indian Citizens</h2>
+        <p class="section-desc">
+          Essential facts, updated visa procedures, and tips from our experienced travel specialists.
+        </p>
+      </div>
+
+      <!-- Guide Tab Controls -->
+      <div class="guide-tabs-nav">
+        <button class="guide-tab-btn active" data-guide-tab="visa">
+          <i class="fa-solid fa-passport"></i> 30-Day Visa Free Rules
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="seasons">
+          <i class="fa-solid fa-cloud-sun"></i> Best Season to Visit
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="food">
+          <i class="fa-solid fa-bowl-food"></i> Vegetarian &amp; Jain Food
+        </button>
+        <button class="guide-tab-btn" data-guide-tab="forex">
+          <i class="fa-solid fa-money-bill-transfer"></i> Currency &amp; Payments
+        </button>
+      </div>
+
+      <!-- Tab 1: Visa -->
+      <div class="guide-content-card guide-pane" id="guide-pane-visa" style="display: block;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1.5rem; color: var(--primary-900);">Visa Requirements for Indian Passport Holders</h3>
+          <span class="top-badge" style="background: #ecfdf5; color: #047857; border-color: #a7f3d0; font-size: 0.85rem;">
+            ✓ Visa-Free Entry
+          </span>
+        </div>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem; font-size: 1.05rem;">
+          Indian citizens can enter Malaysia <strong>without requiring an advance visa</strong> for social visits and tourism stays of up to 30 days. You only need to register the digital arrival card.
+        </p>
+        
+        <h4 style="font-size: 1.1rem; color: var(--primary-900); margin-bottom: 0.75rem;">Document Checklist at Immigration Counter:</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; color: var(--slate-700);">
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i>
+            <span>Indian Passport valid for at least 6 months beyond intended date of departure</span>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i>
+            <span>Confirmed return air ticket back to India or onward destination</span>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i>
+            <span>Confirmed hotel bookings or Kriti Tours official voucher</span>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i>
+            <span>Completed <strong>Malaysia Digital Arrival Card (MDAC)</strong> submitted within 3 days of arrival (Complimentary filing assistance provided by Kriti Tours)</span>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i>
+            <span>Proof of sufficient maintenance funds (Credit card / Cash min. USD 500 equivalent)</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tab 2: Seasons -->
+      <div class="guide-content-card guide-pane" id="guide-pane-seasons" style="display: none;">
+        <h3 style="font-size: 1.5rem; color: var(--primary-900); margin-bottom: 1rem;">When is the Best Time to Travel to Malaysia?</h3>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">
+          Malaysia has a tropical climate year-round with temperatures hovering around 26°C to 32°C. The ideal travel window depends on which coast you want to explore:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+          <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem;">
+            <h4 style="color: var(--primary-900); margin-bottom: 0.35rem;">West Coast (KL, Langkawi, Penang)</h4>
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-gold-hover);">December to April</span>
+            <p style="font-size: 0.85rem; color: var(--slate-600); margin-top: 0.5rem;">Dry and sunny days. Perfect for beach strolls in Langkawi and sightseeing in Kuala Lumpur.</p>
+          </div>
+          <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem;">
+            <h4 style="color: var(--primary-900); margin-bottom: 0.35rem;">East Coast &amp; Diving Islands</h4>
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--accent-teal-dark);">April to September</span>
+            <p style="font-size: 0.85rem; color: var(--slate-600); margin-top: 0.5rem;">Calm waters and superb underwater visibility at Perhentian and Redang islands.</p>
+          </div>
+          <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem;">
+            <h4 style="color: var(--primary-900); margin-bottom: 0.35rem;">Borneo Rainforests (Sabah)</h4>
+            <span style="font-size: 0.8rem; font-weight: 700; color: var(--primary-800);">March to October</span>
+            <p style="font-size: 0.85rem; color: var(--slate-600); margin-top: 0.5rem;">Best wildlife viewing season for orangutans, pygmy elephants, and climbing Mount Kinabalu.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Food -->
+      <div class="guide-content-card guide-pane" id="guide-pane-food" style="display: none;">
+        <h3 style="font-size: 1.5rem; color: var(--primary-900); margin-bottom: 1rem;">Pure Veg, Jain &amp; Indian Dining Comfort</h3>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">
+          Malaysia has one of the world's most vibrant Indian communities. Indian travelers will feel right at home with hundreds of authentic vegetarian and South/North Indian restaurants!
+        </p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+          <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 1.25rem;">
+            <h4 style="color: #92400e; margin-bottom: 0.5rem;"><i class="fa-solid fa-leaf"></i> Pure Veg &amp; Jain Friendly</h4>
+            <p style="font-size: 0.9rem; color: #78350f; line-height: 1.5;">
+              Saravanaa Bhavan, Annalakshmi, and Woodlands operate multiple branches in KL and Penang. Jain meals without onion or garlic can be customized easily upon prior intimation.
+            </p>
+          </div>
+          <div style="background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.25rem;">
+            <h4 style="color: var(--primary-900); margin-bottom: 0.5rem;"><i class="fa-solid fa-utensils"></i> Must-Try Local Delicacies</h4>
+            <p style="font-size: 0.9rem; color: var(--slate-600); line-height: 1.5;">
+              Fluffy <strong>Roti Canai</strong> served with piping hot dhal sambar, <strong>Cendol</strong> (shaved ice coconut dessert), fresh tropical mangosteens, and sweet tender coconuts.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Forex -->
+      <div class="guide-content-card guide-pane" id="guide-pane-forex" style="display: none;">
+        <h3 style="font-size: 1.5rem; color: var(--primary-900); margin-bottom: 1rem;">Malaysian Ringgit (MYR) &amp; Currency Advice</h3>
+        <p style="color: var(--slate-600); margin-bottom: 1.5rem;">
+          The official currency is the <strong>Malaysian Ringgit (MYR or RM)</strong>. 1 MYR is roughly equivalent to <strong>₹18 to ₹20 INR</strong>.
+        </p>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; color: var(--slate-700);">
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-check" style="color: var(--accent-gold);"></i>
+            <span>Indian Forex Cards (Niyo, ICICI, HDFC) work at zero mark-up in ATMs and shopping malls</span>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-check" style="color: var(--accent-gold);"></i>
+            <span>Carry 200–300 MYR in cash for street food night markets like Jalan Alor and petty tipping</span>
+          </li>
+          <li style="display: flex; gap: 0.5rem; align-items: center;">
+            <i class="fa-solid fa-check" style="color: var(--accent-gold);"></i>
+            <span>Kriti Tours offers verified doorstep Forex exchange delivery before departure</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       8. WHY CHOOSE KRITI TOURS & TRAVELS (COMPARISON)
+       ========================================================================= -->
+  <section class="section-padding" id="why-us">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">The Kriti Difference</span>
+        <h2 class="section-title">Why Travel With Kriti Tours &amp; Travels?</h2>
+        <p class="section-desc">
+          Compare our dedicated personalized holiday service with generic automated booking websites.
+        </p>
+      </div>
+
+      <div class="comparison-table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th style="width: 35%;">Service Feature</th>
+              <th class="kriti-col" style="width: 35%; font-size: 1.1rem;">
+                <i class="fa-solid fa-crown" style="color: var(--accent-gold);"></i> KRITI TOURS &amp; TRAVELS
+              </th>
+              <th style="width: 30%; color: var(--slate-500);">Generic Online Portals</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>On-Trip 24/7 Concierge</strong></td>
+              <td class="kriti-col"><i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i> Dedicated human tour manager on WhatsApp</td>
+              <td style="color: var(--slate-400);"><i class="fa-solid fa-circle-xmark"></i> Automated chatbots &amp; ticketing queues</td>
+            </tr>
+            <tr>
+              <td><strong>Bespoke Customization</strong></td>
+              <td class="kriti-col"><i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i> Change dates, hotels, sightseeing at will</td>
+              <td style="color: var(--slate-400);"><i class="fa-solid fa-circle-xmark"></i> Rigid fixed non-refundable bundles</td>
+            </tr>
+            <tr>
+              <td><strong>Indian Pure Veg / Jain Food</strong></td>
+              <td class="kriti-col"><i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i> Pre-vetted restaurants &amp; guided meal stops</td>
+              <td style="color: var(--slate-400);"><i class="fa-solid fa-circle-xmark"></i> You are left to search on your own</td>
+            </tr>
+            <tr>
+              <td><strong>Private vs Shared Transfers</strong></td>
+              <td class="kriti-col"><i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i> Dedicated sanitized private AC vehicles</td>
+              <td style="color: var(--slate-400);"><i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b;"></i> Often crowded shared SIC bus waits</td>
+            </tr>
+            <tr>
+              <td><strong>Visa-Free MDAC Filing Assistance</strong></td>
+              <td class="kriti-col"><i class="fa-solid fa-circle-check" style="color: var(--accent-teal);"></i> Handled by our documentation experts</td>
+              <td style="color: var(--slate-400);"><i class="fa-solid fa-circle-xmark"></i> Extra paperwork fees or zero assistance</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       9. CLIENT TESTIMONIALS
+       ========================================================================= -->
+  <section class="section-padding" style="background: #ffffff;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Real Traveler Stories</span>
+        <h2 class="section-title">Loved by Over 15,000+ Happy Guests</h2>
+        <p class="section-desc">
+          Read genuine reviews from families, newlyweds, and group travelers who journeyed to Malaysia with Kriti Tours &amp; Travels.
+        </p>
+      </div>
+
+      <div class="testimonials-grid" id="testimonials-grid">
+        <!-- Rendered dynamically by js/app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       10. FREQUENTLY ASKED QUESTIONS (FAQ)
+       ========================================================================= -->
+  <section class="section-padding" id="faqs">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-subtitle">Common Inquiries</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">
+          Clear answers regarding prices, visa regulations, packing, customisation, and booking procedures.
+        </p>
+      </div>
+
+      <div class="faq-list" id="faq-accordion">
+        <!-- Rendered dynamically by js/app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       11. LEAD CALLBACK & BOOKING BANNER
+       ========================================================================= -->
+  <section class="section-padding" id="callback-section" style="padding-top: 0;">
+    <div class="container">
+      <div class="callback-banner">
+        <div>
+          <span style="background: rgba(245, 158, 11, 0.2); color: var(--accent-gold); padding: 0.35rem 0.85rem; border-radius: 9999px; font-size: 0.85rem; font-weight: 700;">
+            ⚡ Quick Response Guarantee
+          </span>
+          <h2 style="font-size: 2.25rem; font-weight: 800; color: #fff; margin: 1rem 0 1rem; line-height: 1.2;">
+            Ready to Plan Your Dream Malaysia Holiday?
+          </h2>
+          <p style="color: #cbd5e1; font-size: 1.05rem; line-height: 1.6; margin-bottom: 2rem;">
+            Request a personalized quotation with flight options, handpicked 4/5-star hotels, and exclusive festive deals. Our Malaysia specialist will get back to you within 15 minutes!
+          </p>
+
+          <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+            <div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-gold);">15k+</div>
+              <div style="font-size: 0.85rem; color: #94a3b8;">Delighted Guests</div>
+            </div>
+            <div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #38bdf8;">100%</div>
+              <div style="font-size: 0.85rem; color: #94a3b8;">Customizable</div>
+            </div>
+            <div>
+              <div style="font-size: 1.5rem; font-weight: 800; color: #4ade80;">4.9 ★</div>
+              <div style="font-size: 0.85rem; color: #94a3b8;">Google Rating</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callback-form-box">
+          <h3>Request Instant Callback</h3>
+          <p>Fill out your details to receive customized itinerary &amp; best quotation</p>
+          <form id="callback-request-form">
+            <div class="form-group">
+              <label for="lead-name">Your Full Name *</label>
+              <input type="text" id="lead-name" class="form-control" placeholder="e.g. Vikram Malhotra" required>
+            </div>
+            <div class="form-group">
+              <label for="lead-phone">Mobile / WhatsApp Number *</label>
+              <input type="tel" id="lead-phone" class="form-control" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="form-group">
+              <label for="lead-package-select">Selected Package / Requirement</label>
+              <input type="text" id="lead-package-select" class="form-control" value="Gems of Malaysia: Kuala Lumpur & Genting Highlands" required>
+            </div>
+            <div class="form-group">
+              <label for="lead-passengers">Number of Guests</label>
+              <select id="lead-passengers" class="form-control">
+                <option value="2 Adults">2 Adults (Couple / Honeymoon)</option>
+                <option value="Family with 1-2 Kids">Family with 1-2 Children</option>
+                <option value="Group 4+">Family Group (4+ Guests)</option>
+                <option value="Solo Traveler">Solo Traveler</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem;">
+              <i class="fa-solid fa-paper-plane"></i> Get Free Quote Now
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       12. SITE FOOTER
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom: 1.25rem;">
+            <div class="brand-icon">
+              <i class="fa-solid fa-compass" style="font-size: 1.4rem;"></i>
+            </div>
+            <div class="brand-text-block">
+              <span class="brand-name" style="color: #ffffff;">KRITI <span>TOURS</span></span>
+              <span class="brand-tagline">&amp; TRAVELS</span>
+            </div>
+          </div>
+          <p style="font-size: 0.88rem; line-height: 1.6; color: #94a3b8; margin-bottom: 1.5rem;">
+            KRITI TOURS AND TRAVELS is a premier IATA-accredited international tour operator specializing in bespoke Southeast Asia holidays. Creating timeless journeys since 2012.
+          </p>
+          <div style="display: flex; gap: 0.85rem;">
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #fff;">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #fff;">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #fff;">
+              <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="#" style="width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: #fff;">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Top Malaysia Holidays</h4>
+          <ul class="footer-links">
+            <li><a href="#packages-section">Kuala Lumpur &amp; Genting Tour</a></li>
+            <li><a href="#packages-section">Romantic Langkawi Honeymoon</a></li>
+            <li><a href="#packages-section">Sunway Lagoon &amp; Legoland Family</a></li>
+            <li><a href="#packages-section">Penang Heritage &amp; Food Trail</a></li>
+            <li><a href="#packages-section">Borneo Sabah Wildlife Safari</a></li>
+            <li><a href="#packages-section">Weekend Kuala Lumpur City Break</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links &amp; Guides</h4>
+          <ul class="footer-links">
+            <li><a href="#travel-guide">Malaysia Visa-Free Guide 2026</a></li>
+            <li><a href="#travel-guide">MDAC Digital Card Rules</a></li>
+            <li><a href="#travel-guide">Indian Pure Veg Dining in KL</a></li>
+            <li><a href="#custom-builder">Custom Package Builder</a></li>
+            <li><a href="#why-us">Kriti Tours Trust Guarantee</a></li>
+            <li><a href="#faqs">Travel FAQs &amp; Inclusions</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Head Office &amp; Helpdesk</h4>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Suite 402, Kriti Tower, Andheri East, Mumbai 400069, Maharashtra, India</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>+91 98765 43210 / 022-2890-4321</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>holidays@krititoursandtravels.com</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-clock"></i>
+            <span>Mon - Sat: 9:30 AM - 8:30 PM (24/7 On-Trip Emergency Hotline)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 KRITI TOURS AND TRAVELS. All Rights Reserved. Not affiliated with Riya Travel.
+        </div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#" style="color: #64748b;">Terms &amp; Conditions</a>
+          <a href="#" style="color: #64748b;">Privacy Policy</a>
+          <a href="#" style="color: #64748b;">User Agreement</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       13. FLOATING ACTION BUTTONS (WHATSAPP & CALL)
+       ========================================================================= -->
+  <div class="floating-actions">
+    <a href="https://wa.me/919876543210?text=Hi%20Kriti%20Tours%20and%20Travels%2C%20I%20want%20to%20inquire%20about%20Malaysia%20Tour%20Packages." 
+       target="_blank" 
+       rel="noopener" 
+       class="floating-btn btn-whatsapp" 
+       title="Chat on WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <a href="tel:+919876543210" 
+       class="floating-btn btn-call-floating" 
+       title="Call Us Directly">
+      <i class="fa-solid fa-phone"></i>
+    </a>
+  </div>
+
+  <!-- =========================================================================
+       14. INTERACTIVE ITINERARY & PRICE CALCULATOR MODAL
+       ========================================================================= -->
+  <div class="modal-overlay" id="itinerary-modal-overlay">
+    <div class="itinerary-modal" role="dialog" aria-modal="true">
+      <button class="modal-close-btn" id="modal-close-btn" aria-label="Close Modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-header-banner">
+        <img src="" id="modal-pkg-img" alt="Malaysia Package" class="modal-header-img">
+        <div class="modal-header-content">
+          <div class="modal-subtitle">
+            <span id="modal-pkg-route"><i class="fa-solid fa-map-pin"></i> Route</span>
+            <span>•</span>
+            <span id="modal-pkg-duration"><i class="fa-regular fa-clock"></i> Duration</span>
+          </div>
+          <h2 class="modal-title" id="modal-pkg-title">Package Name</h2>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-tabs">
+          <button class="modal-tab-btn active" data-tab="itinerary">Day-by-Day Plan</button>
+          <button class="modal-tab-btn" data-tab="inclusions">Inclusions &amp; Exclusions</button>
+          <button class="modal-tab-btn" data-tab="calculator">Live Price Calculator</button>
+        </div>
+
+        <!-- Pane 1: Day by Day Timeline -->
+        <div class="modal-tab-pane" id="modal-tab-itinerary" style="display: block;">
+          <div class="timeline-list" id="modal-timeline-container">
+            <!-- Timeline items rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Pane 2: Inclusions & Exclusions -->
+        <div class="modal-tab-pane" id="modal-tab-inclusions" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+              <h4 style="color: var(--accent-teal-dark); margin-bottom: 0.85rem; font-size: 1.1rem;">
+                <i class="fa-solid fa-circle-check"></i> What's Included
+              </h4>
+              <ul id="modal-inclusions-list" style="list-style: none;"></ul>
+            </div>
+            <div>
+              <h4 style="color: var(--danger); margin-bottom: 0.85rem; font-size: 1.1rem;">
+                <i class="fa-solid fa-circle-xmark"></i> What's Not Included
+              </h4>
+              <ul id="modal-exclusions-list" style="list-style: none;"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pane 3: Dynamic Price Calculator -->
+        <div class="modal-tab-pane" id="modal-tab-calculator" style="display: none;">
+          <div class="price-calculator-box">
+            <h4 style="font-size: 1.15rem; color: var(--primary-900); margin-bottom: 0.5rem;">
+              Instant Price Estimator
+            </h4>
+            <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1.25rem;">
+              Select guest count and hotel standard to see live package cost estimate.
+            </p>
+
+            <div class="calc-grid">
+              <div class="calc-field">
+                <label for="calc-travel-date">Departure Date</label>
+                <input type="date" id="calc-travel-date">
+              </div>
+              <div class="calc-field">
+                <label for="calc-adults">Adult Guests (12+ yrs)</label>
+                <select id="calc-adults">
+                  <option value="1">1 Adult (Single Occupancy)</option>
+                  <option value="2" selected>2 Adults (Twin Sharing)</option>
+                  <option value="3">3 Adults (Triple Room)</option>
+                  <option value="4">4 Adults (2 Rooms)</option>
+                </select>
+              </div>
+              <div class="calc-field">
+                <label for="calc-children">Children (2-11 yrs)</label>
+                <select id="calc-children">
+                  <option value="0" selected>0 Children</option>
+                  <option value="1">1 Child</option>
+                  <option value="2">2 Children</option>
+                </select>
+              </div>
+              <div class="calc-field" style="grid-column: span 3;">
+                <label for="calc-hotel-tier">Hotel Comfort Tier</label>
+                <select id="calc-hotel-tier">
+                  <option value="4star" selected>4-Star Premium Hotels (Recommended)</option>
+                  <option value="5star">5-Star Luxury Resorts (+35%)</option>
+                  <option value="3star">3-Star Value Comfort (-15%)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="calc-summary-row">
+              <div>
+                <div class="calc-total-label">Estimated Total Package Price</div>
+                <div id="calc-per-person-display" style="font-size: 0.85rem; color: var(--accent-teal-dark); font-weight: 700;">
+                  ₹29,999 / adult
+                </div>
+              </div>
+              <div class="calc-total-val" id="calc-total-display">
+                ₹59,998
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Bottom Actions -->
+        <div style="display: flex; justify-content: flex-end; gap: 0.85rem; margin-top: 2rem; border-top: 1px solid var(--slate-200); padding-top: 1.25rem;">
+          <button class="btn-outline" id="modal-whatsapp-btn" style="border-color: #25d366; color: #15803d;">
+            <i class="fa-brands fa-whatsapp"></i> Inquire on WhatsApp
+          </button>
+          <button class="btn-primary" id="modal-book-now-btn">
+            <i class="fa-solid fa-paper-plane"></i> Book / Request Quotation
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/packages-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
