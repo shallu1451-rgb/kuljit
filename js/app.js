@@ -1,586 +1,591 @@
-// KRITI TOURS AND TRAVELS - Main JavaScript Application
-// Handles Package rendering, dynamic filters, currency conversion, modal itineraries,
-// live price calculators, custom tour wizard, and interactive guides.
+/**
+ * ==============================================================================
+ * KULJIT FASHIONS AMBALA - Core Interactive Application
+ * Ambala Cloth Market Heritage Couture
+ * ==============================================================================
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // State
-  let currentCurrency = 'INR';
-  let activeCategory = 'all';
-  let activeSort = 'recommended';
-  let currentModalPackage = null;
-
-  // Currency Exchange Rates (Base: INR)
-  const EXCHANGE_RATES = {
-    INR: { symbol: '₹', rate: 1, suffix: '' },
-    USD: { symbol: '$', rate: 0.012, suffix: '' },
-    MYR: { symbol: 'RM ', rate: 0.053, suffix: '' }
+  // Application State
+  const state = {
+    currentCurrency: 'INR',
+    activeCategory: 'all',
+    searchQuery: '',
+    sortBy: 'featured',
+    activeProductModal: null,
+    selectedStitching: 'Made-to-Measure Custom Stitching',
+    plannerSelection: {
+      'bridal-lehenga': true,
+      'reception-gown': true,
+      'sangeet-suit': true,
+      'mehendi-sharara': false,
+      'banarasi-saree': true,
+      'bridesmaid-set': false
+    }
   };
 
   // DOM Elements
-  const packagesGrid = document.getElementById('packages-grid');
-  const packageCountBadge = document.getElementById('package-count-badge');
-  const currencySelector = document.getElementById('currency-select');
-  const filterTabs = document.querySelectorAll('.filter-tab');
-  const sortSelect = document.getElementById('sort-select');
-  const searchForm = document.getElementById('hero-search-form');
-  const modalOverlay = document.getElementById('itinerary-modal-overlay');
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const mobileToggle = document.getElementById('mobile-menu-toggle');
+  const header = document.getElementById('main-header');
   const navMenu = document.getElementById('nav-menu');
+  const mobileToggle = document.getElementById('mobile-toggle');
+  const currencySelect = document.getElementById('currency-select');
+  const productsGrid = document.getElementById('products-grid');
+  const resultsCount = document.getElementById('results-count');
+  const searchInput = document.getElementById('search-input');
+  const sortSelect = document.getElementById('sort-select');
+  const catPills = document.querySelectorAll('.cat-pill');
 
-  // Format Price with active currency
-  function formatPrice(amountInINR) {
-    const config = EXCHANGE_RATES[currentCurrency] || EXCHANGE_RATES.INR;
-    const converted = Math.round(amountInINR * config.rate);
-    return `${config.symbol}${converted.toLocaleString('en-IN')}${config.suffix}`;
-  }
+  // Hero Quick Search Elements
+  const heroSearchBtn = document.getElementById('hero-search-btn');
+  const heroCatSelect = document.getElementById('hero-cat-select');
+  const heroOccasionSelect = document.getElementById('hero-occasion-select');
 
-  // Render Packages Grid
-  function renderPackages(packagesToRender) {
-    if (!packagesGrid) return;
+  // Modal Elements
+  const modalOverlay = document.getElementById('product-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalMainImg = document.getElementById('modal-main-img');
+  const modalThumbs = document.getElementById('modal-thumbs');
+  const modalBadge = document.getElementById('modal-badge');
+  const modalTitle = document.getElementById('modal-title');
+  const modalSku = document.getElementById('modal-sku');
+  const modalPrice = document.getElementById('modal-price');
+  const modalOriginalPrice = document.getElementById('modal-orig-price');
+  const modalFabric = document.getElementById('modal-fabric');
+  const modalWork = document.getElementById('modal-work');
+  const modalColor = document.getElementById('modal-color');
+  const modalLeadTime = document.getElementById('modal-leadtime');
+  const modalInclusions = document.getElementById('modal-inclusions');
+  const modalWhatsappBtn = document.getElementById('modal-whatsapp-btn');
+  const stitchBtns = document.querySelectorAll('.stitch-btn');
 
-    if (packagesToRender.length === 0) {
-      packagesGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem; background: #fff; border-radius: 16px; border: 1px dashed #cbd5e1;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">🌴</div>
-          <h3 style="font-size: 1.4rem; color: #0b1e36; margin-bottom: 0.5rem;">No packages matched your filters</h3>
-          <p style="color: #64748b; margin-bottom: 1.5rem;">Try adjusting your destination, budget or duration filters to explore other Malaysia tours.</p>
-          <button class="btn-primary" onclick="resetFilters()">View All Malaysia Packages</button>
-        </div>
-      `;
-      if (packageCountBadge) packageCountBadge.textContent = '0 packages available';
-      return;
-    }
+  // Back to top & floating buttons
+  const backToTopBtn = document.getElementById('back-to-top');
 
-    if (packageCountBadge) {
-      packageCountBadge.textContent = `${packagesToRender.length} curated packages found`;
-    }
+  // Forms
+  const videoBookingForm = document.getElementById('video-booking-form');
+  const contactForm = document.getElementById('contact-form');
+  const toastNotice = document.getElementById('toast-notice');
+  const toastMessage = document.getElementById('toast-message');
 
-    packagesGrid.innerHTML = packagesToRender.map(pkg => `
-      <article class="package-card" data-id="${pkg.id}">
-        <div class="package-img-wrapper">
-          <img src="${pkg.image}" alt="${pkg.title}" class="package-img" loading="lazy">
-          <span class="package-badge"><i class="fa-solid fa-star"></i> ${pkg.badge}</span>
-          <span class="package-duration-pill"><i class="fa-regular fa-clock"></i> ${pkg.durationText}</span>
-        </div>
-
-        <div class="package-content">
-          <div class="package-route">
-            <i class="fa-solid fa-location-dot"></i>
-            <span>${pkg.route}</span>
-          </div>
-
-          <h3 class="package-title">${pkg.title}</h3>
-
-          <div class="package-rating">
-            <span class="star-rating">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star-half-stroke"></i>
-            </span>
-            <strong>${pkg.rating}</strong>
-            <span>(${pkg.reviewCount} verified reviews)</span>
-          </div>
-
-          <div class="inclusions-preview">
-            <ul>
-              ${pkg.inclusions.slice(0, 4).map(item => `
-                <li><i class="fa-solid fa-circle-check"></i> <span>${item}</span></li>
-              `).join('')}
-            </ul>
-          </div>
-
-          <div class="package-footer">
-            <div class="package-price-row">
-              <div class="price-block">
-                <span class="price-label">Starting Price / Person</span>
-                <div>
-                  <span class="price-amount">${formatPrice(pkg.priceINR)}</span>
-                  <span class="original-price">${formatPrice(pkg.originalPriceINR)}</span>
-                </div>
-                <span class="emi-tag">EMI from ${formatPrice(pkg.emiStartsINR)}/mo</span>
-              </div>
-            </div>
-
-            <div class="package-action-btns">
-              <button class="btn-outline view-itinerary-btn" data-id="${pkg.id}">
-                <i class="fa-regular fa-file-lines"></i> Itinerary
-              </button>
-              <button class="btn-primary book-package-btn" data-id="${pkg.id}">
-                <i class="fa-solid fa-paper-plane"></i> Book Now
-              </button>
-            </div>
-          </div>
-        </div>
-      </article>
-    `).join('');
-
-    // Attach Event Listeners to cards
-    document.querySelectorAll('.view-itinerary-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = e.currentTarget.getAttribute('data-id');
-        openItineraryModal(id);
-      });
-    });
-
-    document.querySelectorAll('.book-package-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const id = e.currentTarget.getAttribute('data-id');
-        openBookingDirect(id);
-      });
-    });
-  }
-
-  // Filter & Sort Logic
-  function getFilteredPackages() {
-    let result = [...MALAYSIA_PACKAGES];
-
-    // Filter by Category Tab
-    if (activeCategory !== 'all') {
-      result = result.filter(pkg => pkg.category === activeCategory);
-    }
-
-    // Filter by Sort
-    if (activeSort === 'price-low') {
-      result.sort((a, b) => a.priceINR - b.priceINR);
-    } else if (activeSort === 'price-high') {
-      result.sort((a, b) => b.priceINR - a.priceINR);
-    } else if (activeSort === 'rating') {
-      result.sort((a, b) => b.rating - a.rating);
-    } else if (activeSort === 'duration') {
-      result.sort((a, b) => b.durationDays - a.durationDays);
-    }
-
-    return result;
-  }
-
-  // Update Packages View
-  function refreshPackages() {
-    const list = getFilteredPackages();
-    renderPackages(list);
-  }
-
-  // Reset Filters Global Helper
-  window.resetFilters = function() {
-    activeCategory = 'all';
-    filterTabs.forEach(tab => {
-      tab.classList.toggle('active', tab.getAttribute('data-filter') === 'all');
-    });
-    refreshPackages();
-  };
-
-  // Filter Tabs Click
-  filterTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      filterTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      activeCategory = tab.getAttribute('data-filter');
-      refreshPackages();
-    });
-  });
-
-  // Sort Selection
-  if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-      activeSort = e.target.value;
-      refreshPackages();
-    });
-  }
-
-  // Currency Selection
-  if (currencySelector) {
-    currencySelector.addEventListener('change', (e) => {
-      currentCurrency = e.target.value;
-      refreshPackages();
-      if (currentModalPackage) {
-        updateModalPricing();
-      }
-      showToast(`Currency switched to ${currentCurrency}`);
-    });
-  }
-
-  // Hero Search Form
-  if (searchForm) {
-    searchForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const dest = document.getElementById('search-destination').value.toLowerCase();
-      const duration = document.getElementById('search-duration').value;
-      const theme = document.getElementById('search-theme').value;
-
-      let filtered = [...MALAYSIA_PACKAGES];
-
-      if (dest !== 'all') {
-        filtered = filtered.filter(p => p.route.toLowerCase().includes(dest) || p.title.toLowerCase().includes(dest));
-      }
-
-      if (duration === 'short') {
-        filtered = filtered.filter(p => p.durationDays <= 5);
-      } else if (duration === 'medium') {
-        filtered = filtered.filter(p => p.durationDays >= 6 && p.durationDays <= 7);
-      } else if (duration === 'long') {
-        filtered = filtered.filter(p => p.durationDays > 7);
-      }
-
-      if (theme !== 'all') {
-        filtered = filtered.filter(p => p.category === theme);
-      }
-
-      renderPackages(filtered);
-
-      // Smooth scroll down to packages section
-      const targetSec = document.getElementById('packages-section');
-      if (targetSec) {
-        targetSec.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  }
-
-  // =========================================================================
-  // ITINERARY MODAL & DYNAMIC PRICE CALCULATOR
-  // =========================================================================
-  function openItineraryModal(packageId) {
-    const pkg = MALAYSIA_PACKAGES.find(p => p.id === packageId);
-    if (!pkg) return;
-    currentModalPackage = pkg;
-
-    document.getElementById('modal-pkg-img').src = pkg.gallery[0] || pkg.image;
-    document.getElementById('modal-pkg-title').textContent = pkg.title;
-    document.getElementById('modal-pkg-route').textContent = pkg.route;
-    document.getElementById('modal-pkg-duration').textContent = pkg.durationText;
-
-    // Timeline Days
-    const timelineContainer = document.getElementById('modal-timeline-container');
-    timelineContainer.innerHTML = pkg.itinerary.map(item => `
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-day">Day ${item.day}</div>
-        <h4 class="timeline-title">${item.title}</h4>
-        <p class="timeline-desc">${item.description}</p>
-      </div>
-    `).join('');
-
-    // Inclusions & Exclusions
-    const incContainer = document.getElementById('modal-inclusions-list');
-    incContainer.innerHTML = pkg.inclusions.map(i => `
-      <li style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.5rem;">
-        <i class="fa-solid fa-circle-check" style="color: var(--accent-teal); margin-top: 0.2rem;"></i>
-        <span>${i}</span>
-      </li>
-    `).join('');
-
-    const excContainer = document.getElementById('modal-exclusions-list');
-    excContainer.innerHTML = pkg.exclusions.map(e => `
-      <li style="display: flex; gap: 0.5rem; align-items: flex-start; margin-bottom: 0.5rem;">
-        <i class="fa-solid fa-circle-xmark" style="color: var(--danger); margin-top: 0.2rem;"></i>
-        <span>${e}</span>
-      </li>
-    `).join('');
-
-    // Default dates in calculator
-    const today = new Date();
-    today.setDate(today.getDate() + 14);
-    const dateInput = document.getElementById('calc-travel-date');
-    if (dateInput) {
-      dateInput.value = today.toISOString().split('T')[0];
-    }
-
-    updateModalPricing();
-
-    modalOverlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function updateModalPricing() {
-    if (!currentModalPackage) return;
-    const adults = parseInt(document.getElementById('calc-adults')?.value || 2, 10);
-    const children = parseInt(document.getElementById('calc-children')?.value || 0, 10);
-    const hotelTier = document.getElementById('calc-hotel-tier')?.value || '4star';
-
-    let tierMultiplier = 1;
-    if (hotelTier === '5star') tierMultiplier = 1.35;
-    if (hotelTier === '3star') tierMultiplier = 0.85;
-
-    const baseAdultPrice = currentModalPackage.priceINR * tierMultiplier;
-    const childPrice = baseAdultPrice * 0.70; // 30% discount for child
-
-    const totalINR = Math.round((adults * baseAdultPrice) + (children * childPrice));
-
-    const totalDisplay = document.getElementById('calc-total-display');
-    if (totalDisplay) {
-      totalDisplay.textContent = formatPrice(totalINR);
-    }
-
-    const perPersonDisplay = document.getElementById('calc-per-person-display');
-    if (perPersonDisplay) {
-      perPersonDisplay.textContent = `${formatPrice(Math.round(baseAdultPrice))} / adult`;
-    }
-  }
-
-  // Calculator Listeners
-  ['calc-adults', 'calc-children', 'calc-hotel-tier'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('change', updateModalPricing);
-  });
-
-  // Modal Tabs (Overview / Timeline / Inclusions / Calculator)
-  const modalTabBtns = document.querySelectorAll('.modal-tab-btn');
-  modalTabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      modalTabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const target = btn.getAttribute('data-tab');
-
-      document.querySelectorAll('.modal-tab-pane').forEach(pane => {
-        pane.style.display = 'none';
-      });
-
-      const activePane = document.getElementById(`modal-tab-${target}`);
-      if (activePane) activePane.style.display = 'block';
-    });
-  });
-
-  // Close Modal
-  function closeModal() {
-    if (modalOverlay) {
-      modalOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-      currentModalPackage = null;
-    }
-  }
-
-  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-  if (modalOverlay) {
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) closeModal();
-    });
-  }
-
-  // Direct Booking Handler
-  function openBookingDirect(packageId) {
-    const pkg = MALAYSIA_PACKAGES.find(p => p.id === packageId);
-    if (!pkg) return;
+  // ==============================================================================
+  // 1. CURRENCY CONVERSION & FORMATTING
+  // ==============================================================================
+  function formatPrice(amountINR, currencyKey = state.currentCurrency) {
+    const curr = KULJIT_CONFIG.currencies[currencyKey] || KULJIT_CONFIG.currencies.INR;
+    const converted = amountINR * curr.rate;
     
-    // Smooth scroll down to callback/booking banner and pre-fill form
-    const leadPackageInput = document.getElementById('lead-package-select');
-    if (leadPackageInput) {
-      leadPackageInput.value = pkg.title;
+    if (currencyKey === 'INR') {
+      return curr.symbol + Math.round(converted).toLocaleString('en-IN');
     }
-    const callbackSection = document.getElementById('callback-section');
-    if (callbackSection) {
-      callbackSection.scrollIntoView({ behavior: 'smooth' });
+    return curr.symbol + Math.round(converted).toLocaleString('en-US');
+  }
+
+  function updateCurrency(newCurrency) {
+    if (KULJIT_CONFIG.currencies[newCurrency]) {
+      state.currentCurrency = newCurrency;
+      renderProducts();
+      updatePlannerEstimate();
+      if (state.activeProductModal) {
+        populateModalData(state.activeProductModal);
+      }
+      showToast(`Currency updated to ${KULJIT_CONFIG.currencies[newCurrency].name} (${newCurrency})`);
     }
-    showToast(`Selected "${pkg.title}". Fill your details below to get instant quote!`);
   }
 
-  // Modal Book Button
-  const modalBookBtn = document.getElementById('modal-book-now-btn');
-  if (modalBookBtn) {
-    modalBookBtn.addEventListener('click', () => {
-      if (currentModalPackage) {
-        const title = currentModalPackage.title;
-        closeModal();
-        const leadPackageInput = document.getElementById('lead-package-select');
-        if (leadPackageInput) leadPackageInput.value = title;
-        const callbackSection = document.getElementById('callback-section');
-        if (callbackSection) callbackSection.scrollIntoView({ behavior: 'smooth' });
-        showToast(`Ready to book ${title}! Submit your contact details.`);
-      }
+  if (currencySelect) {
+    currencySelect.addEventListener('change', (e) => {
+      updateCurrency(e.target.value);
     });
   }
 
-  // Modal WhatsApp Button
-  const modalWhatsAppBtn = document.getElementById('modal-whatsapp-btn');
-  if (modalWhatsAppBtn) {
-    modalWhatsAppBtn.addEventListener('click', () => {
-      if (currentModalPackage) {
-        const text = encodeURIComponent(`Hi Kriti Tours and Travels, I am interested in booking the "${currentModalPackage.title}" (${currentModalPackage.durationText}) for Malaysia. Please share the complete package details and best offer.`);
-        window.open(`https://wa.me/919876543210?text=${text}`, '_blank');
-      }
-    });
-  }
-
-  // =========================================================================
-  // DESTINATIONS SHOWCASE RENDERING
-  // =========================================================================
-  const destinationsGrid = document.getElementById('destinations-grid');
-  if (destinationsGrid && typeof DESTINATIONS_DATA !== 'undefined') {
-    destinationsGrid.innerHTML = DESTINATIONS_DATA.map(dest => `
-      <div class="destination-card" onclick="filterByDestination('${dest.name}')">
-        <img src="${dest.image}" alt="${dest.name}" class="destination-img" loading="lazy">
-        <div class="destination-overlay">
-          <span class="destination-tag">${dest.idealDays} • ${dest.bestFor}</span>
-          <h3 class="destination-name">${dest.name}</h3>
-          <p style="font-size: 0.85rem; color: #fef08a; font-weight: 500;">${dest.tagline}</p>
-          <div class="destination-highlights">
-            ${dest.highlights.map(h => `<span class="dest-tag-pill">${h}</span>`).join('')}
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  window.filterByDestination = function(destName) {
-    const matched = MALAYSIA_PACKAGES.filter(p => p.route.includes(destName) || p.title.includes(destName));
-    renderPackages(matched.length > 0 ? matched : MALAYSIA_PACKAGES);
-    const targetSec = document.getElementById('packages-section');
-    if (targetSec) targetSec.scrollIntoView({ behavior: 'smooth' });
-    showToast(`Showing packages covering ${destName}`);
-  };
-
-  // =========================================================================
-  // TRAVEL GUIDE TABS
-  // =========================================================================
-  const guideTabBtns = document.querySelectorAll('.guide-tab-btn');
-  guideTabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      guideTabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const tabId = btn.getAttribute('data-guide-tab');
-
-      document.querySelectorAll('.guide-pane').forEach(p => p.style.display = 'none');
-      const activePane = document.getElementById(`guide-pane-${tabId}`);
-      if (activePane) activePane.style.display = 'block';
-    });
+  // ==============================================================================
+  // 2. HEADER SCROLL & MOBILE NAVIGATION
+  // ==============================================================================
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+      if (backToTopBtn) backToTopBtn.classList.add('visible');
+    } else {
+      header.classList.remove('scrolled');
+      if (backToTopBtn) backToTopBtn.classList.remove('visible');
+    }
   });
 
-  // =========================================================================
-  // CUSTOM TOUR BUILDER WIZARD
-  // =========================================================================
-  const builderOptions = document.querySelectorAll('.builder-option-box');
-  builderOptions.forEach(opt => {
-    opt.addEventListener('click', () => {
-      const parentGrid = opt.parentElement;
-      const isMulti = parentGrid.getAttribute('data-multiselect') === 'true';
-
-      if (!isMulti) {
-        parentGrid.querySelectorAll('.builder-option-box').forEach(b => b.classList.remove('selected'));
-        opt.classList.add('selected');
-      } else {
-        opt.classList.toggle('selected');
+  if (mobileToggle && navMenu) {
+    mobileToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+      const icon = mobileToggle.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-bars');
+        icon.classList.toggle('fa-xmark');
       }
     });
-  });
 
-  const builderForm = document.getElementById('custom-builder-form');
-  if (builderForm) {
-    builderForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('builder-name').value;
-      const phone = document.getElementById('builder-phone').value;
-      const days = document.getElementById('builder-days').value;
-
-      showToast(`🎉 Thank you ${name}! Your custom ${days}-day Malaysia holiday plan is being prepared. Our specialist will call you shortly on ${phone}.`);
-      builderForm.reset();
-    });
-  }
-
-  // =========================================================================
-  // TESTIMONIALS RENDERING
-  // =========================================================================
-  const testimonialsGrid = document.getElementById('testimonials-grid');
-  if (testimonialsGrid && typeof TESTIMONIALS_DATA !== 'undefined') {
-    testimonialsGrid.innerHTML = TESTIMONIALS_DATA.map(t => `
-      <div class="testimonial-card">
-        <div class="testimonial-header">
-          <img src="${t.avatar}" alt="${t.name}" class="testimonial-avatar">
-          <div class="testimonial-meta">
-            <h4>${t.name}</h4>
-            <p>${t.city} • ${t.date}</p>
-            <div style="color: #eab308; font-size: 0.8rem; margin-top: 0.2rem;">
-              ★★★★★ <span style="color: #64748b; font-weight: 600;">Verified Traveler</span>
-            </div>
-          </div>
-        </div>
-        <div style="font-size: 0.8rem; color: var(--accent-teal-dark); font-weight: 700; margin-bottom: 0.75rem;">
-          <i class="fa-solid fa-map-pin"></i> ${t.package}
-        </div>
-        <p class="testimonial-comment">"${t.comment}"</p>
-      </div>
-    `).join('');
-  }
-
-  // =========================================================================
-  // FAQ ACCORDION
-  // =========================================================================
-  const faqContainer = document.getElementById('faq-accordion');
-  if (faqContainer && typeof FAQS_DATA !== 'undefined') {
-    faqContainer.innerHTML = FAQS_DATA.map((faq, idx) => `
-      <div class="faq-item ${idx === 0 ? 'active' : ''}">
-        <button class="faq-question">
-          <span>${faq.q}</span>
-          <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <div class="faq-answer">
-          <p>${faq.a}</p>
-        </div>
-      </div>
-    `).join('');
-
-    document.querySelectorAll('.faq-question').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.parentElement;
-        const isActive = item.classList.contains('active');
-        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
-        if (!isActive) {
-          item.classList.add('active');
+    // Close menu when clicking nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        const icon = mobileToggle.querySelector('i');
+        if (icon) {
+          icon.classList.add('fa-bars');
+          icon.classList.remove('fa-xmark');
         }
       });
     });
   }
 
-  // =========================================================================
-  // LEAD CALLBACK FORM
-  // =========================================================================
-  const callbackForm = document.getElementById('callback-request-form');
-  if (callbackForm) {
-    callbackForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('lead-name').value;
-      const phone = document.getElementById('lead-phone').value;
-      const pkg = document.getElementById('lead-package-select').value;
-
-      showToast(`Thank you, ${name}! Your request for "${pkg}" has been received. Our Malaysia travel advisor will call you at ${phone} in 15 mins.`);
-      callbackForm.reset();
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
 
-  // Mobile Menu Drawer
-  if (mobileToggle && navMenu) {
-    mobileToggle.addEventListener('click', () => {
-      const isVisible = navMenu.style.display === 'flex';
-      navMenu.style.display = isVisible ? 'none' : 'flex';
-      if (!isVisible) {
-        navMenu.style.flexDirection = 'column';
-        navMenu.style.position = 'absolute';
-        navMenu.style.top = '100%';
-        navMenu.style.left = '0';
-        navMenu.style.right = '0';
-        navMenu.style.background = '#ffffff';
-        navMenu.style.padding = '1.5rem';
-        navMenu.style.boxShadow = '0 10px 25px rgba(0,0,0,0.1)';
-        navMenu.style.zIndex = '99';
+  // ==============================================================================
+  // 3. PRODUCT CATALOG FILTERING & RENDERING
+  // ==============================================================================
+  function getFilteredProducts() {
+    return PRODUCTS_DATA.filter(prod => {
+      // Category Match
+      const matchesCat = state.activeCategory === 'all' || prod.category === state.activeCategory;
+      
+      // Search Match
+      const q = state.searchQuery.toLowerCase().trim();
+      const matchesSearch = !q || 
+        prod.name.toLowerCase().includes(q) ||
+        prod.fabric.toLowerCase().includes(q) ||
+        prod.work.toLowerCase().includes(q) ||
+        prod.categoryName.toLowerCase().includes(q) ||
+        prod.sku.toLowerCase().includes(q);
+
+      return matchesCat && matchesSearch;
+    }).sort((a, b) => {
+      if (state.sortBy === 'price-low') {
+        return a.priceINR - b.priceINR;
+      }
+      if (state.sortBy === 'price-high') {
+        return b.priceINR - a.priceINR;
+      }
+      if (state.sortBy === 'rating') {
+        return b.rating - a.rating;
+      }
+      return 0; // default featured
+    });
+  }
+
+  function renderProducts() {
+    if (!productsGrid) return;
+
+    const filtered = getFilteredProducts();
+
+    if (resultsCount) {
+      resultsCount.innerHTML = `Showing <strong>${filtered.length}</strong> handcrafted designs`;
+    }
+
+    if (filtered.length === 0) {
+      productsGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 3rem; color: var(--color-gold); margin-bottom: 1rem;"></i>
+          <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">No exact match found</h3>
+          <p style="color: var(--color-text-muted); margin-bottom: 1.5rem;">Try adjusting your keyword or reset filters to explore our full Ambala couture collection.</p>
+          <button class="btn btn-outline" id="reset-filters-btn">
+            <i class="fa-solid fa-rotate-left"></i> Reset All Filters
+          </button>
+        </div>
+      `;
+
+      const resetBtn = document.getElementById('reset-filters-btn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          state.activeCategory = 'all';
+          state.searchQuery = '';
+          state.sortBy = 'featured';
+          if (searchInput) searchInput.value = '';
+          if (sortSelect) sortSelect.value = 'featured';
+          catPills.forEach(p => p.classList.toggle('active', p.dataset.category === 'all'));
+          renderProducts();
+        });
+      }
+      return;
+    }
+
+    productsGrid.innerHTML = filtered.map(prod => {
+      const discountPct = Math.round(((prod.originalPriceINR - prod.priceINR) / prod.originalPriceINR) * 100);
+      const formattedCurrent = formatPrice(prod.priceINR);
+      const formattedOrig = formatPrice(prod.originalPriceINR);
+
+      // Prefilled WhatsApp order text
+      const waMessage = encodeURIComponent(
+        `Hello Kuljit Fashions Ambala! I am interested in inquiring/ordering:\n\n` +
+        `• Design: ${prod.name}\n` +
+        `• SKU: ${prod.sku}\n` +
+        `• Category: ${prod.categoryName}\n` +
+        `• Price: ${formattedCurrent} (${state.currentCurrency})\n\n` +
+        `Please share available sizes/custom stitching details and delivery timeline.`
+      );
+      const waUrl = `https://wa.me/${KULJIT_CONFIG.whatsapp}?text=${waMessage}`;
+
+      return `
+        <article class="product-card" data-id="${prod.id}">
+          <div class="card-img-wrap">
+            <span class="card-badge">${prod.badge}</span>
+            <img 
+              src="${prod.primaryImage}" 
+              alt="${prod.name}" 
+              class="card-img" 
+              loading="lazy"
+              onerror="this.src='https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80'"
+            />
+            <div class="card-quick-actions">
+              <button class="btn btn-primary btn-sm view-details-btn" style="width: 100%;" data-id="${prod.id}">
+                <i class="fa-solid fa-eye"></i> Quick View
+              </button>
+            </div>
+          </div>
+          
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-category">${prod.categoryName}</span>
+              <div class="card-rating">
+                <i class="fa-solid fa-star"></i>
+                <strong>${prod.rating.toFixed(1)}</strong>
+                <span>(${prod.reviewsCount})</span>
+              </div>
+            </div>
+
+            <h3 class="card-title" title="${prod.name}">${prod.name}</h3>
+            <p class="card-fabric"><i class="fa-solid fa-gem" style="color: var(--color-gold); font-size: 0.75rem; margin-right: 0.35rem;"></i>${prod.fabric}</p>
+
+            <div class="card-pricing">
+              <span class="price-current">${formattedCurrent}</span>
+              <span class="price-original">${formattedOrig}</span>
+              <span class="price-discount">${discountPct}% OFF</span>
+            </div>
+
+            <div class="card-footer-btns">
+              <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-sm" title="Order on WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+              </a>
+              <button class="btn btn-outline btn-sm view-details-btn" data-id="${prod.id}" title="View Details">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    // Attach click handlers to quick view buttons
+    document.querySelectorAll('.view-details-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const prodId = btn.dataset.id || btn.closest('.product-card').dataset.id;
+        openProductModal(prodId);
+      });
+    });
+  }
+
+  // Category Pills Filter
+  catPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      catPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      state.activeCategory = pill.dataset.category;
+      renderProducts();
+    });
+  });
+
+  // Search Input Handler
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      state.searchQuery = e.target.value;
+      renderProducts();
+    });
+  }
+
+  // Sort Select Handler
+  if (sortSelect) {
+    sortSelect.addEventListener('change', (e) => {
+      state.sortBy = e.target.value;
+      renderProducts();
+    });
+  }
+
+  // Hero Search Widget Integration
+  if (heroSearchBtn) {
+    heroSearchBtn.addEventListener('click', () => {
+      const selectedCat = heroCatSelect ? heroCatSelect.value : 'all';
+      state.activeCategory = selectedCat;
+      
+      catPills.forEach(pill => {
+        pill.classList.toggle('active', pill.dataset.category === selectedCat);
+      });
+
+      renderProducts();
+
+      const collectionsEl = document.getElementById('collections');
+      if (collectionsEl) {
+        collectionsEl.scrollIntoView({ behavior: 'smooth' });
       }
     });
   }
 
-  // Toast Function
-  function showToast(msg) {
-    let toast = document.getElementById('global-toast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.id = 'global-toast';
-      toast.className = 'toast-notice';
-      document.body.appendChild(toast);
+  // ==============================================================================
+  // 4. PRODUCT QUICK VIEW / DETAILS MODAL
+  // ==============================================================================
+  function openProductModal(productId) {
+    const product = PRODUCTS_DATA.find(p => p.id === productId);
+    if (!product || !modalOverlay) return;
+
+    state.activeProductModal = product;
+    populateModalData(product);
+
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProductModal() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    state.activeProductModal = null;
+  }
+
+  function populateModalData(product) {
+    modalMainImg.src = product.primaryImage;
+    modalMainImg.alt = product.name;
+
+    // Thumbnails
+    modalThumbs.innerHTML = `
+      <button class="thumb-btn active" data-src="${product.primaryImage}">
+        <img src="${product.primaryImage}" alt="${product.name}">
+      </button>
+      <button class="thumb-btn" data-src="${product.secondaryImage}">
+        <img src="${product.secondaryImage}" alt="${product.name} detail">
+      </button>
+    `;
+
+    modalThumbs.querySelectorAll('.thumb-btn').forEach(tb => {
+      tb.addEventListener('click', () => {
+        modalThumbs.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+        tb.classList.add('active');
+        modalMainImg.src = tb.dataset.src;
+      });
+    });
+
+    modalBadge.textContent = product.badge;
+    modalTitle.textContent = product.name;
+    modalSku.textContent = `SKU: ${product.sku} | ${product.categoryName} | ${product.rating.toFixed(1)} ★ (${product.reviewsCount} verified reviews)`;
+
+    modalPrice.textContent = formatPrice(product.priceINR);
+    modalOriginalPrice.textContent = formatPrice(product.originalPriceINR);
+
+    modalFabric.textContent = product.fabric;
+    modalWork.textContent = product.work;
+    modalColor.textContent = product.color;
+    modalLeadTime.textContent = product.leadTime;
+    modalInclusions.textContent = product.inclusions;
+
+    updateModalWhatsappLink();
+  }
+
+  function updateModalWhatsappLink() {
+    if (!state.activeProductModal || !modalWhatsappBtn) return;
+    const prod = state.activeProductModal;
+    const formattedPrice = formatPrice(prod.priceINR);
+
+    const message = encodeURIComponent(
+      `Hello Kuljit Fashions Ambala!\n\n` +
+      `I would like to order / consult about this couture design:\n` +
+      `• *${prod.name}*\n` +
+      `• SKU: ${prod.sku}\n` +
+      `• Quoted Price: ${formattedPrice} (${state.currentCurrency})\n` +
+      `• Selected Tailoring: ${state.selectedStitching}\n` +
+      `• Lead Time: ${prod.leadTime}\n\n` +
+      `Please assist me with fabric confirmation, customization, and delivery to my location.`
+    );
+
+    modalWhatsappBtn.href = `https://wa.me/${KULJIT_CONFIG.whatsapp}?text=${message}`;
+  }
+
+  // Stitching Selector in Modal
+  stitchBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      stitchBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.selectedStitching = btn.textContent.trim();
+      updateModalWhatsappLink();
+    });
+  });
+
+  if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeProductModal);
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeProductModal();
+    });
+  }
+
+  // ESC key to close modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('active')) {
+      closeProductModal();
     }
-    toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: var(--accent-gold);"></i> <span>${msg}</span>`;
-    toast.classList.add('show');
+  });
+
+  // ==============================================================================
+  // 5. INTERACTIVE BRIDAL TROUSSEAU BUDGET PLANNER
+  // ==============================================================================
+  const plannerOptions = document.querySelectorAll('.planner-option');
+  const plannerSummaryList = document.getElementById('planner-summary-list');
+  const plannerTotalAmount = document.getElementById('planner-total-amount');
+  const plannerWhatsappBtn = document.getElementById('planner-whatsapp-btn');
+
+  const PLANNER_PRICES_INR = {
+    'bridal-lehenga': { title: "Heavy Zardozi Bridal Lehenga (Main Wedding)", price: 85000 },
+    'reception-gown': { title: "Designer Reception Gown / Indo-Western", price: 32000 },
+    'sangeet-suit': { title: "Flared Anarkali / Gotapatti Sangeet Ensemble", price: 18500 },
+    'mehendi-sharara': { title: "Vibrant Mehendi Mirror-work Sharara Set", price: 19800 },
+    'banarasi-saree': { title: "Pure Katan Banarasi Silk Heirloom Saree", price: 28900 },
+    'bridesmaid-set': { title: "Trousseau Family Pack (3 Heavy Suits)", price: 36000 }
+  };
+
+  function updatePlannerEstimate() {
+    if (!plannerSummaryList || !plannerTotalAmount) return;
+
+    let totalINR = 0;
+    const selectedItems = [];
+
+    plannerOptions.forEach(opt => {
+      const key = opt.dataset.key;
+      const isSelected = state.plannerSelection[key];
+      opt.classList.toggle('selected', !!isSelected);
+
+      if (isSelected && PLANNER_PRICES_INR[key]) {
+        const item = PLANNER_PRICES_INR[key];
+        totalINR += item.price;
+        selectedItems.push(item);
+      }
+    });
+
+    // Render Summary List
+    if (selectedItems.length === 0) {
+      plannerSummaryList.innerHTML = `<li style="justify-content: center; color: var(--color-gold-light);">Please select at least one outfit above</li>`;
+    } else {
+      plannerSummaryList.innerHTML = selectedItems.map(item => `
+        <li>
+          <span>${item.title}</span>
+          <strong>${formatPrice(item.price)}</strong>
+        </li>
+      `).join('');
+    }
+
+    plannerTotalAmount.textContent = formatPrice(totalINR);
+
+    // Update WhatsApp Consultation CTA
+    if (plannerWhatsappBtn) {
+      const waText = encodeURIComponent(
+        `Hello Kuljit Fashions Ambala!\n\n` +
+        `I planned my custom bridal trousseau package on your website:\n` +
+        selectedItems.map(it => `• ${it.title} - ${formatPrice(it.price)}`).join('\n') +
+        `\n\nEstimated Total: ${formatPrice(totalINR)} (${state.currentCurrency})\n\n` +
+        `I would like to book a 1-on-1 virtual styling session to finalize these designs!`
+      );
+      plannerWhatsappBtn.href = `https://wa.me/${KULJIT_CONFIG.whatsapp}?text=${waText}`;
+    }
+  }
+
+  plannerOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      const key = opt.dataset.key;
+      state.plannerSelection[key] = !state.plannerSelection[key];
+      updatePlannerEstimate();
+    });
+  });
+
+  // ==============================================================================
+  // 6. FAQ ACCORDION LOGIC
+  // ==============================================================================
+  const faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(item => {
+    const questionBtn = item.querySelector('.faq-question');
+    if (questionBtn) {
+      questionBtn.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        faqItems.forEach(i => i.classList.remove('active'));
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    }
+  });
+
+  // ==============================================================================
+  // 7. FORMS HANDLING & TOAST ALERTS
+  // ==============================================================================
+  function showToast(message) {
+    if (!toastNotice || !toastMessage) return;
+    toastMessage.textContent = message;
+    toastNotice.classList.add('show');
     setTimeout(() => {
-      toast.classList.remove('show');
+      toastNotice.classList.remove('show');
     }, 4500);
   }
 
-  // Initial render
-  refreshPackages();
+  // Video Booking Form
+  if (videoBookingForm) {
+    videoBookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('v-name').value.trim();
+      const phone = document.getElementById('v-phone').value.trim();
+      const country = document.getElementById('v-country').value;
+      const date = document.getElementById('v-date').value;
+      const notes = document.getElementById('v-notes').value.trim();
+
+      const message = encodeURIComponent(
+        `*NRI Video Shopping Appointment Request*\n\n` +
+        `• Name: ${name}\n` +
+        `• WhatsApp / Phone: ${phone}\n` +
+        `• Country / Timezone: ${country}\n` +
+        `• Preferred Date: ${date}\n` +
+        `• Requirements: ${notes || 'General Bridal & Ethnic Wear'}\n\n` +
+        `Sent via Kuljit Fashions Ambala Website`
+      );
+
+      showToast(`Thank you, ${name}! Redirecting to WhatsApp to confirm your video appointment...`);
+      setTimeout(() => {
+        window.open(`https://wa.me/${KULJIT_CONFIG.whatsapp}?text=${message}`, '_blank');
+      }, 1000);
+      videoBookingForm.reset();
+    });
+  }
+
+  // Contact / Wholesale Form
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('c-name').value.trim();
+      const email = document.getElementById('c-email').value.trim();
+      const phone = document.getElementById('c-phone').value.trim();
+      const interest = document.getElementById('c-interest').value;
+      const inquiry = document.getElementById('c-message').value.trim();
+
+      const message = encodeURIComponent(
+        `*Ambala Showroom / Wholesale Inquiry*\n\n` +
+        `• Name: ${name}\n` +
+        `• Phone: ${phone}\n` +
+        `• Email: ${email}\n` +
+        `• Interest Category: ${interest}\n` +
+        `• Message: ${inquiry}\n\n` +
+        `Sent via Kuljit Fashions Ambala Website`
+      );
+
+      showToast(`Thank you, ${name}! Your inquiry has been received. Our team will contact you promptly.`);
+      setTimeout(() => {
+        window.open(`https://wa.me/${KULJIT_CONFIG.whatsapp}?text=${message}`, '_blank');
+      }, 1200);
+      contactForm.reset();
+    });
+  }
+
+  // Initial Application Boot
+  renderProducts();
+  updatePlannerEstimate();
 });
